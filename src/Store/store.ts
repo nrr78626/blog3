@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userSlice from './Feature/Auth/userSlice'
+import blogSlice from './Feature/Blog/blogSlice'
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
-            userMethod:userSlice
+            userMethod:userSlice,
+            blogMethod:blogSlice
         },
     })
 }

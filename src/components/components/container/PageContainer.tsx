@@ -12,7 +12,7 @@ const PageContainer = ({ title, description, children }: Props) => (
   <HelmetProvider>
     <div>
       <Helmet>
-        <title>Daily Narratives | {title}</title>
+        <title>{title} | Daily Narratives</title>
         <meta name="description" content={description} />
       </Helmet>
       {children}
