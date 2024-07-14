@@ -10,7 +10,7 @@ const Login = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const [login, setLogin] = useState({ email: "", password: "" })
-    const {success} = useAppSelector(state=>state.userMethod)
+    const { success } = useAppSelector(state => state.userMethod)
 
     const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -22,16 +22,16 @@ const Login = () => {
         setLogin({ ...login, [e.target.name]: e.target.value })
     }
 
-    useEffect(()=>{
-        if(success === true){
+    useEffect(() => {
+        if (success === true) {
             router.push("/Dashboard")
         }
-    },[success])
+    }, [success])
 
     return (
         <section className="text-gray-600 body-font relative">
             <div className="px-5 py-24 mx-auto">
-                <ToastContainer/>
+                <ToastContainer />
                 <div className="flex flex-col text-center w-full mb-12">
                     <h1 className="sm:text-3xl text-2xl title-font mb-4 text-gray-800 font-semibold">Login</h1>
                 </div>

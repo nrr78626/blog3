@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Box,
   Menu,
@@ -22,9 +23,25 @@ import {
   IconMail,
   IconShield,
 } from "@tabler/icons-react";
+import { useAppSelector } from "@/Store/Hooks/hooks";
 
 const Profile = () => {
+  const { currenUser } = useAppSelector(state => state.userMethod)
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const router = useRouter()
+
+  const handleOnLogout = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/Logout`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const json = await response.json()
+    if (json.success) {
+      router.push("/")
+    }
+  }
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
   };
@@ -115,7 +132,7 @@ const Profile = () => {
               ml: 1,
             }}
           >
-            Julia
+            {currenUser?.name}
           </Typography>
           <IconChevronDown width="20" height="20" />
         </Box>
@@ -136,7 +153,7 @@ const Profile = () => {
             width: "360px",
             p: 2,
             pb: 2,
-            pt:0
+            pt: 0
           },
         }}
       >
@@ -144,24 +161,24 @@ const Profile = () => {
         <Box pt={0}>
 
           <List>
-            <ListItemButton component="a" href="#">
+            {/* <ListItemButton component="a" href="/Dashboard/MyProfile">
               <ListItemText primary="Edit Profile" />
             </ListItemButton>
             <ListItemButton component="a" href="#">
               <ListItemText primary="Account" />
-            </ListItemButton>
-            <ListItemButton component="a" href="#">
+            </ListItemButton> */}
+            <ListItemButton component="a" href="/Dashboard/ChangePassword">
               <ListItemText primary="Change Password" />
             </ListItemButton>
-            <ListItemButton component="a" href="#">
-              <ListItemText primary="My Settings" />
+            <ListItemButton component="a" href="/Dashboard/MyProfile">
+              <ListItemText primary="My Profile" />
             </ListItemButton>
           </List>
 
         </Box>
         <Divider />
         <Box mt={2}>
-          <Button fullWidth variant="contained" color="primary">
+          <Button fullWidth variant="contained" color="primary" onClick={handleOnLogout} >
             Logout
           </Button>
         </Box>

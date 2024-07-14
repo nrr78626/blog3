@@ -20,7 +20,8 @@ const userSchema = new mongoose.Schema({
         reqquired: true
     },
     avatar: {
-        type: String
+        type: String,
+        default:"user.jpg"
     },
     isVerified: {
         type: Boolean,

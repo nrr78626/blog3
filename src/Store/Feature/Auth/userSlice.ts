@@ -4,13 +4,15 @@ import { Bounce, toast } from "react-toastify";
 export interface UserState {
     user: any,
     isLoading: boolean,
-    success: boolean
+    success: boolean,
+    currenUser: any
 }
 
 const initialState: UserState = {
     user: [],
     isLoading: false,
-    success: false
+    success: false,
+    currenUser: {}
 }
 
 // Fetch All Users from data base
@@ -131,6 +133,21 @@ export const editUserRole = createAsyncThunk("edituser", async ({ id }: any) => 
     return json
 })
 
+export const myprofile = createAsyncThunk("myprofile", async () => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/MyProfile`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const json = await response.json()
+        return json
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -175,15 +192,27 @@ export const userSlice = createSlice({
                 }
             }
         })
-        builder.addCase(loginUser.pending,(state)=>{
+        builder.addCase(loginUser.pending, (state) => {
             state.isLoading = true
         })
-        builder.addCase(loginUser.rejected,(state,action)=>{
+        builder.addCase(loginUser.rejected, (state, action) => {
             state.isLoading = false
         })
-        builder.addCase(loginUser.fulfilled,(state,action)=>{
+        builder.addCase(loginUser.fulfilled, (state, action) => {
             state.isLoading = false
             state.success = true
+        })
+        builder.addCase(myprofile.pending, (state, action) => {
+            state.isLoading = true
+        })
+        builder.addCase(myprofile.rejected, (state, action) => {
+            state.isLoading = false
+            state.success = false
+        })
+        builder.addCase(myprofile.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.success = true
+            state.currenUser = action.payload.user
         })
     }
 })

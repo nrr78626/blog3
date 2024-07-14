@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
         await cookies().set({ name: "authtoken", value: authtoken, httpOnly: true, path: "/" })
        
         return response.json({ success: true, msg: "Logged In" }, { status: 200 })
+
     } catch (error) {
         return NextResponse.json({ success: false, msg: "Internal Server Error" }, { status: 500 })
     }

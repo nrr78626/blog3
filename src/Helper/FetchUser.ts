@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"
+
+export interface TokenType {
+    token: any
+}
 
 const fetchUser = async (request: NextRequest) => {
     try {
-        const token = cookies().get("authtoken")
+        const token = await request.cookies.get("authtoken")?.value || ""
 
         if (!token) {
             return NextResponse.redirect(new URL("/", request.url))
@@ -12,10 +15,9 @@ const fetchUser = async (request: NextRequest) => {
 
         const user = jwt.verify(token.toString(), process.env.NEXT_PUBLIC_SECRET_KEY!)
 
-        if(!user){
-            return NextResponse.redirect(new URL("/",request.url))
+        if (!user) {
+            return NextResponse.redirect(new URL("/", request.url))
         }
-
         return user
 
     } catch (error) {
