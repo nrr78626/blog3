@@ -23,9 +23,11 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (success === true) {
-            router.push("/Dashboard")
-        }
+        setTimeout(() => {
+            if (success === true) {
+                router.push("/Dashboard")
+            }
+        }, 3000)
     }, [success])
 
     return (

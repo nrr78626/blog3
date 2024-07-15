@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 const Signup = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { success } = useAppSelector(state => state.userMethod)
+  const { success }: any = useAppSelector(state => state.userMethod)
 
   const [signup, setSignup] = useState({ name: "", email: "", password: "", contact: "", cpassword: "", age: "" })
 
@@ -25,7 +25,9 @@ const Signup = () => {
 
   useEffect(() => {
     if (success === true) {
-      router.push("/")
+      setTimeout(() => {
+        router.push("/")
+      }, 3000)
     }
   }, [success])
   return (

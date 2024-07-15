@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Box,
@@ -101,7 +100,7 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={"/images/users/user2.jpg"}
+          src={currenUser.avatar === "user.jpg" ? `/images/profile/${currenUser?.avatar}` : currenUser.avatar}
           alt={"ProfileImg"}
           sx={{
             width: 30,
@@ -132,7 +131,7 @@ const Profile = () => {
               ml: 1,
             }}
           >
-            {currenUser?.name}
+            {currenUser.name}
           </Typography>
           <IconChevronDown width="20" height="20" />
         </Box>
@@ -161,12 +160,6 @@ const Profile = () => {
         <Box pt={0}>
 
           <List>
-            {/* <ListItemButton component="a" href="/Dashboard/MyProfile">
-              <ListItemText primary="Edit Profile" />
-            </ListItemButton>
-            <ListItemButton component="a" href="#">
-              <ListItemText primary="Account" />
-            </ListItemButton> */}
             <ListItemButton component="a" href="/Dashboard/ChangePassword">
               <ListItemText primary="Change Password" />
             </ListItemButton>

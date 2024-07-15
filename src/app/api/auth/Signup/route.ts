@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
     try {
         connectToDb()
         const { name, email, password, age, contact } = await request.json()
-        console.log(name, email, password, age, contact)
         // Checking for empty data
         if (!name || !email || !password || !age || !contact || email == "" || password == "" || name == "" || age == "" || contact == "") {
             return NextResponse.json({ success: false, msg: "Fill all details" }, { status: 404 })
@@ -49,6 +48,6 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ success: true, msg: "Added", user }, { status: 200 })
     } catch (error) {
-        return NextResponse.json({success:false,msg:"Internal Server Error"},{status:500})
+        return NextResponse.json({ success: false, msg: "Internal Server Error" }, { status: 500 })
     }
 }
