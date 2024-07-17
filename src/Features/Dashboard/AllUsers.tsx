@@ -5,11 +5,10 @@ import React from 'react'
 import { FaTrashCan } from "react-icons/fa6";
 import { IoMdCloudUpload } from "react-icons/io";
 import roles from '@/Models/Roles/Roles';
-import Link from 'next/link';
 import { editUserRole } from '@/Store/Feature/Auth/userSlice';
 
 const AllUsers = () => {
-    const { user } = useAppSelector(state => state.userMethod)
+    const { user }:any = useAppSelector(state => state.userMethod)
     return (
         <Grid container spacing={0}>
             <Grid item xs={12} lg={12}>

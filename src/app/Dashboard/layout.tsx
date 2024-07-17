@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Header from "@/components/layout/header/Header";
 import Sidebar from "@/components/layout/sidebar/Sidebar";
 import Footer from "@/components/layout/footer/page";
-import { useAppDispatch, useAppSelector } from "@/Store/Hooks/hooks";
+import { useAppDispatch } from "@/Store/Hooks/hooks";
 import { fetchAllUser, myprofile } from "@/Store/Feature/Auth/userSlice";
 
 const MainWrapper = styled("div")(() => ({

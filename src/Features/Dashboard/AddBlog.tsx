@@ -1,7 +1,7 @@
 "use client"
 import BaseCard from '@/components/components/shared/BaseCard'
 import { Grid, Stack, TextField, Button, Box } from '@mui/material'
-import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
+import React, { ChangeEvent, useState, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { useAppDispatch } from '@/Store/Hooks/hooks'
 import { addBlog } from '@/Store/Feature/Blog/blogSlice'
@@ -9,30 +9,19 @@ const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false })
 
 const AddBlog = () => {
     const dispatch = useAppDispatch()
-    const ref = useRef(null)
-    const [blog, setBlog] = useState({ title: "", description: "" })
-    const [content, setContent] = useState("")
+    const elementRef = useRef(null)
+    const [blog, setBlog] = useState<any>({ title: "", description: ""})
+    const [content,setContent] = useState<any | null>(null)
 
-    const config = useMemo(() => ({
-        uploader: {
-            insertImageAsBase64URI: true,
-            imagesExtensions: ['jpg', 'png', 'jpeg', 'gif', 'svg', 'webp'],
-        },
-
-    }), [])
-
-    const handleOnSubmit=async(e:any)=>{
+    const handleOnSubmit = async (e: any) => {
         e.preventDefault()
-        const {title,description} = blog
-        dispatch(addBlog({content,title,description}))
+        const { title, description } = blog
+        dispatch(addBlog({ content, title, description }))
     }
-
-
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setBlog({ ...blog, [e.target.name]: e.target.value })
     }
-
 
     return (
         <Grid container spacing={3}>
@@ -50,7 +39,7 @@ const AddBlog = () => {
                             <TextField id="desc-basic" name='description' label="Description" variant="outlined" onChange={handleOnChange} />
                         </Stack>
                         <Stack mt={3}>
-                            <JoditEditor value={content} ref={ref} onChange={(newContent) => setContent(newContent)} />
+                            <JoditEditor value={blog.content} ref={elementRef} onChange={(newContent)=>setContent(newContent)} />
                         </Stack>
                         <br />
                         <Box display={"flex"} justifyContent={"center"} >

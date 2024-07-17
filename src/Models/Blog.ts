@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const blogSchema = new mongoose.Schema({
     auther: {
         type: mongoose.Schema.ObjectId,
-        ref: "Auther"
+        ref: "User"
     },
     title: {
         type: String,
@@ -19,6 +19,10 @@ const blogSchema = new mongoose.Schema({
     },
     images: {
         type: String
+    },
+    autherName:{
+        type:String,
+        required:true
     }
 }, { timestamps: true })
 
