@@ -3,12 +3,14 @@ import { toast, Bounce } from "react-toastify";
 
 export interface BlogState {
     loading: boolean,
-    blogs: any
+    blogs: any,
+    success: boolean
 }
 
 const initialState: BlogState = {
     blogs: [],
-    loading: false
+    loading: false,
+    success: false
 }
 
 //Fetch All Blogs
@@ -41,7 +43,31 @@ export const addBlog = createAsyncThunk("addBlog", async ({ title, description, 
             body: JSON.stringify({ title, description, content })
         })
         const json = await response.json()
-        console.log(json)
+        if (json.success) {
+            toast.success(json.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        } else {
+            toast.error(json.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            })
+        }
         return json
     } catch (error) {
         console.log(error)
@@ -74,6 +100,7 @@ export const blogSlice = createSlice({
         builder.addCase(getallblogs.fulfilled, (state, action) => {
             state.loading = false
             state.blogs = action.payload.blogs
+            state.success = true
         })
 
     }
