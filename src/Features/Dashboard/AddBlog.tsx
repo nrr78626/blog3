@@ -28,9 +28,7 @@ const AddBlog = () => {
     }
 
     useEffect(() => {
-        if (success == true) {
-            router.push("/Dashboard/AllBlogs")
-        }
+        
     }, [success])
 
     return (

@@ -13,7 +13,7 @@ const Blog = ({ blog }: { blog: any }) => {
             <div className="container px-5 py-24 mx-auto">
                 <div className="flex flex-wrap -m-4">
                     {blog?.map((e: any) => (
-                        <Link href={"#"} key={e._id} legacyBehavior className='cursor-pointer' >
+                        <Link href={`/SingleBlog/${e._id}`} key={e._id} legacyBehavior className='cursor-pointer' >
                             <div className="p-4 md:w-1/3 cursor-pointer">
                                 <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                     <img className="lg:h-48 md:h-36 w-full object-cover object-center" src={e.images} alt="blog" />
