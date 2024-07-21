@@ -33,16 +33,17 @@ export const getallblogs = createAsyncThunk("fetchallblogs", async () => {
 })
 
 //add Blog
-export const addBlog = createAsyncThunk("addBlog", async ({ title, description, content }: any) => {
+export const addBlog = createAsyncThunk("addBlog", async (formData: any) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/AddBlog`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                
             },
-            body: JSON.stringify({ title, description, content })
+            body: formData
         })
         const json = await response.json()
+        console.log(json)
         if (json.success) {
             toast.success(json.msg, {
                 position: "top-right",

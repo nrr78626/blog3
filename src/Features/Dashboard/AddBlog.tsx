@@ -14,29 +14,46 @@ const AddBlog = () => {
     const elementRef = useRef(null)
     const [blog, setBlog] = useState<any>({ title: "", description: "" })
     const [content, setContent] = useState<any | null>(null)
-    const { loading, success } = useAppSelector(state => state.blogMethod)
+    const [blogImg, setBlogImg] = useState<any | null>(null)
+    const { success }: any = useAppSelector(state => state.blogMethod)
     const router = useRouter()
 
     const handleOnSubmit = async (e: any) => {
         e.preventDefault()
         const { title, description } = blog
-        dispatch(addBlog({ content, title, description }))
+        if (!blogImg) {
+            return
+        }
+        const formData = new FormData()
+        formData.append("title", title)
+        formData.append("description", description)
+        formData.append("images", blogImg)
+        formData.append("content", content)
+        dispatch(addBlog(formData))
     }
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setBlog({ ...blog, [e.target.name]: e.target.value })
     }
 
+    const handleOnChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        if (e.target.files) {
+            setBlogImg(e.target.files[0])
+        }
+    }
+
+
     useEffect(() => {
-        
+
     }, [success])
 
     return (
         <Grid container spacing={3}>
             <Grid item xs={12} lg={12}>
-                <ToastContainer className={"z-[99999]"} />
+                <ToastContainer className={"z-[9999]"} />
                 <BaseCard title="Add Blog">
-                    <form onSubmit={handleOnSubmit}>
+                    <form onSubmit={handleOnSubmit} encType='multipart/form-data'>
                         <Stack spacing={3}>
                             <TextField
                                 id="title-basic"
@@ -46,6 +63,7 @@ const AddBlog = () => {
                                 name='title'
                             />
                             <TextField id="desc-basic" name='description' label="Description" variant="outlined" onChange={handleOnChange} />
+                            <TextField type='file' id="desc-basic" name='images' label="" variant="outlined" onChange={handleOnChangeImage} />
                         </Stack>
                         <Stack mt={3}>
                             <JoditEditor value={blog.content} ref={elementRef} onChange={(newContent) => setContent(newContent)} />

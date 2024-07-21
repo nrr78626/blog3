@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import PageContainer from '@/components/components/container/PageContainer'
+import Image from 'next/image'
 
 const page = ({ params }: { params: { slug: string } }) => {
     const { slug } = params
@@ -20,7 +21,7 @@ const page = ({ params }: { params: { slug: string } }) => {
         }
     }
 
-    const { title, description, content,autherName }: any = blog
+    const { title, description, content, autherName, images }: any = blog
 
     useEffect(() => {
         fetchSpecificBlog()
@@ -28,9 +29,12 @@ const page = ({ params }: { params: { slug: string } }) => {
     return (
         <PageContainer title='Blog' description='this this blog content' >
             <div className='flex flex-col'>
+                <div className='flex justify-center' >
+                    <Image src={images} height={1000} width={100} alt='blog image' />
+                </div>
                 <h1 className='text-3xl font-semibold text-wrap my-4'>{title}</h1>
                 <span className='text-semibold text-wrap font-semibold' >{description}</span>
-                <div dangerouslySetInnerHTML={{__html:content}} className='my-4' >
+                <div dangerouslySetInnerHTML={{ __html: content }} className='my-4' >
 
                 </div>
                 <div className='flex justify-end mt-4'>
