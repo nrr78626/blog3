@@ -121,13 +121,13 @@ export const loginUser = createAsyncThunk("loginuser", async ({ email, password 
 
 //Edit User Role 
 
-export const editUserRole = createAsyncThunk("edituser", async ({ id }: any) => {
+export const editUserRole = createAsyncThunk("edituser", async ({ userId, userRole }: any) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/EditUserRole`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id })
+        body: JSON.stringify({ userId, userRole })
     })
     const json = await response.json()
     return json
@@ -184,13 +184,7 @@ export const userSlice = createSlice({
         })
         builder.addCase(editUserRole.fulfilled, (state, action) => {
             state.isLoading = false
-
-            for (let i = 0; i < state.user.length; i++) {
-                const element = state.user[i];
-                if (element._id === action.payload.user._id) {
-                    element.role = action.payload.user.role
-                }
-            }
+            console.log(action.payload)
         })
         builder.addCase(loginUser.pending, (state) => {
             state.isLoading = true

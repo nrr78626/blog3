@@ -13,6 +13,10 @@ const nextConfig = {
             {
                 protocol: "http",
                 hostname: "miro.medium.com"
+            },
+            {
+                protocol:"https",
+                hostname:"img.freepik.com"
             }
         ]
     }

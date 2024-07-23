@@ -1,14 +1,24 @@
+"use client"
 import BaseCard from '@/components/components/shared/BaseCard';
-import { useAppSelector } from '@/Store/Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/Store/Hooks/hooks';
 import { Grid, TableContainer, Table, TableHead, TableRow, TableCell, Typography, TableBody, Box } from '@mui/material';
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { FaTrashCan } from "react-icons/fa6";
 import { IoMdCloudUpload } from "react-icons/io";
 import roles from '@/Models/Roles/Roles';
 import { editUserRole } from '@/Store/Feature/Auth/userSlice';
 
 const AllUsers = () => {
-    const { user }:any = useAppSelector(state => state.userMethod)
+    const { user }: any = useAppSelector(state => state.userMethod)
+
+    const dispatch = useAppDispatch()
+
+    const [userRole, setUserRole] = useState("")
+
+    const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        setUserRole(e.target.value)
+    }
+
     return (
         <Grid container spacing={0}>
             <Grid item xs={12} lg={12}>
@@ -75,7 +85,7 @@ const AllUsers = () => {
                                             </Box>
                                         </TableCell>
                                         <TableCell>
-                                            <select className='outline-none flex items-center justify-center bg-blue-700 text-gray-50 rounded-sm py-1 px-1' name="role" id="role" defaultValue={_users.role}>
+                                            <select className='outline-none flex items-center justify-center bg-blue-700 text-gray-50 rounded-sm py-1 px-1' name="role" id="role" defaultValue={_users.role} onChange={handleOnChange} >
                                                 <option value={roles.admin}>Admin</option>
                                                 <option value={roles.moderatars}>Moderatars</option>
                                                 <option value={roles.user}>User</option>
@@ -88,7 +98,7 @@ const AllUsers = () => {
                                         <TableCell align="right">
                                             <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
                                                 <FaTrashCan className='mx-3 cursor-pointer text-red-600' />
-                                                <IoMdCloudUpload onClick={()=>editUserRole({id:_users._id})} className='mx-3 cursor-pointer text-green-600 font-semibold text-xl' />
+                                                <IoMdCloudUpload onClick={() => dispatch(editUserRole({ userId: _users._id, userRole }))} className='mx-3 cursor-pointer text-green-600 font-semibold text-xl' />
                                             </Box>
                                         </TableCell>
                                     </TableRow>
