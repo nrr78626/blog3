@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <PageContainer title="Home" description="this is daily narratives home page">
       <Header />
-      <div>
+      <div className="">
         <Blog blog={blog} />
       </div>
     </PageContainer>
