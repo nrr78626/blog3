@@ -35,13 +35,22 @@ const Header = () => {
                             <Link href={"/"}>Home</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
-                            <Link href={"/Blog"}>Blog</Link>
+                            <Link href={"/Technology"}>Tech</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
-                            <Link href={"#"}>About Us</Link>
+                            <Link href={"/Technology"}>News</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
-                            <Link href={"#"}>Contact Us</Link>
+                            <Link href={"/Technology"}>Results</Link>
+                        </li>
+                        <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
+                            <Link href={"/Stocks"}>Stocks</Link>
+                        </li>
+                        <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
+                            <Link href={"/About"}>About Us</Link>
+                        </li>
+                        <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
+                            <Link href={"/Contact"}>Contact Us</Link>
                         </li>
                     </ul>
                 </div>
