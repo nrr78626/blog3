@@ -11,12 +11,16 @@ const nextConfig = {
                 hostname: "res.cloudinary.com"
             },
             {
-                protocol: "http",
+                protocol: "https",
                 hostname: "miro.medium.com"
             },
             {
                 protocol:"https",
                 hostname:"img.freepik.com"
+            },
+            {
+                protocol:"https",
+                hostname:"www.searchenginejournal.com"
             }
         ]
     }

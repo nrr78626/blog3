@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import BlogCategory from "./BlogType/BlogType";
 
 const blogSchema = new mongoose.Schema({
     auther: {
@@ -16,6 +17,11 @@ const blogSchema = new mongoose.Schema({
     content: {
         type: Array,
         required: true
+    },
+    category:{
+        type:String,
+        enum:[BlogCategory.any,BlogCategory.news,BlogCategory.result,BlogCategory.sports,BlogCategory.stocks,BlogCategory.tech],
+        default:BlogCategory.any
     },
     images: {
         type: String

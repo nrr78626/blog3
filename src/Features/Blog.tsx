@@ -4,7 +4,6 @@ import Loading from '@/app/loading'
 import Image from 'next/image'
 
 const Blog = ({ blog }: { blog: any }) => {
-    console.log(blog)
     if (!blog) {
         return <Loading></Loading>
     }
@@ -15,8 +14,11 @@ const Blog = ({ blog }: { blog: any }) => {
                     {blog?.map((e: any) => (
                         <Link href={`/SingleBlog/${e._id}`} key={e._id} legacyBehavior className='cursor-pointer' >
                             <div className="p-4 md:w-1/3 cursor-pointer">
-                                <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                                    <img className="lg:h-48 md:h-36 w-full object-cover object-center" src={e.images} alt="blog" />
+                                <div className="relative h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                                    <div className='absolute p-1 font-semibold text-gray-100 right-0 bg-green-500 m-2 text-sm rounded '>
+                                    {e.category}
+                                    </div>
+                                    <Image className="lg:h-48 md:h-36 w-full object-cover object-center" src={e.images} alt="blog" height={1000} width={1000} priority={true} />
                                     <div className="p-6">
                                         <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">{e.title}</h2>
                                         <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{e.title}</h1>

@@ -3,12 +3,11 @@ import React from 'react';
 import { IoIosCall } from "react-icons/io";
 import { IoIosMail } from "react-icons/io";
 import Image from 'next/image';
-import { TbCategoryFilled } from "react-icons/tb";
 import Link from 'next/link';
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const Header = () => {
-        
+
     return (
         <header className='' >
             <div className='flex items-center py-3 gap-2 px-2 bg-green-200 text-gray-700 max-sm:hidden'>
@@ -25,26 +24,25 @@ const Header = () => {
                     <Image src={"https://img.freepik.com/premium-vector/word-concept-color-geometric-shapes-blog_205544-12899.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721606400&semt=ais_user"} alt='blog' height={1000} width={1000} className='good h-20 w-20 rounded' />
                 </Link>
                 <span className='h-14 w-[1px] border-l-[2px] border-pink-200 max-sm:hidden'></span>
-                <div className='flex items-center gap-2 max-sm:hidden'>
-                    <TbCategoryFilled className='text-2xl' />
-                    <Link href={"#"} className='font-semibold'>Category</Link>
-                </div>
                 <div className='ml-5 max-sm:hidden'>
                     <ul className='flex gap-4'>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
                             <Link href={"/"}>Home</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
-                            <Link href={"/Technology"}>Tech</Link>
+                            <Link href={"/Technology"}>Technology</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
-                            <Link href={"/Technology"}>News</Link>
+                            <Link href={"/News"}>News</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
-                            <Link href={"/Technology"}>Results</Link>
+                            <Link href={"/Results"}>Results</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
                             <Link href={"/Stocks"}>Stocks</Link>
+                        </li>   
+                        <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
+                            <Link href={"/Sports"}>Sports</Link>
                         </li>
                         <li className='border-2 border-b-2 border-gray-900 hover:border-b-gray-100 transition-all duration-300'>
                             <Link href={"/About"}>About Us</Link>
