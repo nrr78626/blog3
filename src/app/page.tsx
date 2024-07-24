@@ -8,7 +8,7 @@ export default function Home() {
   const [blog, setBlog] = useState("")
 
   const getAllUsersBlogs = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/GetUsersBlog`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/GetUsersBlog/${"Any"}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

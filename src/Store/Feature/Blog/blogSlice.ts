@@ -32,13 +32,28 @@ export const getallblogs = createAsyncThunk("fetchallblogs", async () => {
     }
 })
 
+export const getUserBlog = createAsyncThunk("getuserblog", async ({cat}:any) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/GetUsersBlog/${cat}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const json = await response.json()
+        return json.blogs
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 //add Blog
 export const addBlog = createAsyncThunk("addBlog", async (formData: any) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/AddBlog`, {
             method: "POST",
             headers: {
-                
+
             },
             body: formData
         })
@@ -79,7 +94,9 @@ export const blogSlice = createSlice({
     name: "blog",
     initialState,
     reducers: {
-
+        getCurrentBlog(state, action) {
+            
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(addBlog.pending, (state) => {
@@ -103,10 +120,20 @@ export const blogSlice = createSlice({
             state.blogs = action.payload.blogs
             state.success = true
         })
+        builder.addCase(getUserBlog.pending, (state, action) => {
+            state.loading = true
+        })
+        builder.addCase(getUserBlog.rejected, (state, action) => {
+            state.loading = false
+        })
+        builder.addCase(getUserBlog.fulfilled, (state, action) => {
+            state.loading = false
+            state.blogs = action.payload
+        })
 
     }
 })
 
-export const { } = blogSlice.actions
+export const { getCurrentBlog } = blogSlice.actions
 
 export default blogSlice.reducer
