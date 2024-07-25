@@ -23,7 +23,12 @@ export async function PUT(request: NextRequest) {
 
         const confirmMail = await sendEmail({ token, email: user.email })
 
-        console.log(confirmMail)
+        if (!confirmMail?.response) {
+            return NextResponse.json({ success: false, msg: "Please try again" }, { status: 404 })
+        }
+
+        user = await User.findByIdAndUpdate(user._id, { $set: { forgetPasswordToken: token, forgetPasswordTokenExpiry: Date.now() } }, { new: true })
+
         return NextResponse.json({ success: true, msg: "Check your mail" }, { status: 200 })
 
     } catch (error) {

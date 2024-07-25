@@ -1,5 +1,4 @@
 import NodeMailer from "nodemailer"
-import { NextRequest, NextResponse } from "next/server";
 
 const sendEmail = async ({ email, token }: any) => {
     try {
@@ -37,7 +36,7 @@ const sendEmail = async ({ email, token }: any) => {
                         <span style="font-size: 12px; line-height: 1.5; color: #333333;">
                             We have sent you this email in response to your request to reset your password on Daily Narratives.
                             <br/><br/>
-                            To reset your password for <a href="${process.env.NEXT_PUBLIC_DOMAIN}/ForgetPassword?token=${token}">Daily Narratives</a>, please follow the link below:
+                            To reset your password for <a href="${process.env.NEXT_PUBLIC_DOMAIN}/ForgotPassword?token=${token}">Daily Narratives</a>, please follow the link below:
                             <a href="${process.env.NEXT_PUBLIC_DOMAIN}/ForgetPassword?token=${"dammdmdsan"}">Click Here</a>
                             <br/><br/>
                             We recommend that you keep your password secure and not share it with anyone.If you feel your password has been compromised, you can change it by going to your Daily Narratives My Account Page and clicking on the "Change Email Address or Password" link.
@@ -70,9 +69,7 @@ const sendEmail = async ({ email, token }: any) => {
             to: email,
             html: mailBody
         })
-
-        console.log(info.response)
-        return info.response
+        return info
     } catch (error) {
         console.log(error)
     }

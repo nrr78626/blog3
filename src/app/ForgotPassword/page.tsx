@@ -1,37 +1,106 @@
 "use client"
-import React from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import PageContainer from '@/components/components/container/PageContainer'
 import Header from '@/Features/Header'
-import { ToastContainer } from 'react-toastify'
+import { Bounce, toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
-    const token = useSearchParams().get("token")
-    console.log(token)
-    const handleOnSubmit = async () => {
+    const token: any = useSearchParams().get("token")
+    const router = useRouter()
 
+    const [forgotPass, setForgotPass] = useState({ email: "" })
+    const [changePassword, setChangePassword] = useState({ password: "", cpassword: "" })
+
+    const handleOnForgotSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const { email } = forgotPass
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/ForgotPass`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email })
+            })
+            const json = await response.json()
+            if (json.success) {
+                toast.success(json.msg, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                setTimeout(() => {
+                    router.push("/")
+                }, 3000)
+            } else {
+                toast.error(json.msg, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
-    const handleOnChange = () => {
-
+    const handleOnChangePasswordSubmit=async(e:FormEvent<HTMLFormElement>)=>{
+        e.preventDefault()
+        const {password,cpassword} = changePassword
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/ConfirmNewPassword`,{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({password,cpassword})
+            })
+            const json = await response.json()
+            console.log(json)
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+    const handleOnForgotChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setForgotPass({ ...forgotPass, [e.target.name]: e.target.value })
+    }
+
+    const handleOnChangePassword=(e:ChangeEvent<HTMLInputElement>)=>{
+        setChangePassword({...changePassword,[e.target.name]:e.target.value})
+    }
+
     return (
         <>
             {!token && <PageContainer title='Forgot Password' description='this is forgot password page' >
                 <Header />
                 <section className="text-gray-600 body-font relative">
-                    <ToastContainer />
+                    <ToastContainer className="z-[9999]" />
                     <div className="px-5 py-24 mx-auto">
                         <div className="flex flex-col text-center w-full">
                             <h1 className="sm:text-lg text-lg title-font mb-4 text-gray-800 font-semibold">Forgot Password</h1>
                         </div>
                         <div className="lg:w-1/2 md:w-2/3 mx-auto">
-                            <form onSubmit={handleOnSubmit}>
+                            <form onSubmit={handleOnForgotSubmit}>
                                 <div className="flex flex-wrap -m-2">
                                     <div className="relative w-full">
                                         <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
-                                        <input type="email" id="email" name="email" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-gray-500 focus:bg-white focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={handleOnChange} />
+                                        <input type="email" id="email" name="email" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-gray-500 focus:bg-white focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={handleOnForgotChange} />
                                     </div>
                                     <div className="p-2 w-full mt-10">
                                         <button type='submit' className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-md">Forget</button>
@@ -74,24 +143,27 @@ const page = () => {
             {token && <PageContainer title='Chnage Password' description='this is change password page' >
                 <Header />
                 <section className="text-gray-600 body-font relative">
-                    <ToastContainer />
+                    <ToastContainer className="z-[9999]" />
                     <div className="px-5 py-24 mx-auto">
                         <div className="flex flex-col text-center w-full">
                             <h1 className="sm:text-lg text-lg title-font mb-4 text-gray-800 font-semibold">Change Password</h1>
                         </div>
                         <div className="lg:w-1/2 md:w-2/3 mx-auto">
-                            <form onSubmit={handleOnSubmit}>
+                            <form onSubmit={handleOnChangePasswordSubmit}>
                                 <div className="flex flex-wrap -m-2">
                                     <div className="relative w-full my-2">
                                         <label htmlFor="password" className="leading-7 text-sm text-gray-600">Password</label>
-                                        <input type="password" id="password" name="password" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-gray-500 focus:bg-white focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={handleOnChange} />
+                                        <input type="password" id="password" name="password" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-gray-500 focus:bg-white focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={handleOnChangePassword} />
                                     </div>
                                     <div className="relative w-full my-2">
                                         <label htmlFor="cpassword" className="leading-7 text-sm text-gray-600">Confirm Password</label>
-                                        <input type="password" id="cpassword" name="cpassword" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-gray-500 focus:bg-white focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={handleOnChange} />
+                                        <input type="password" id="cpassword" name="cpassword" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-gray-500 focus:bg-white focus:ring-2 focus:ring-gray-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={handleOnChangePassword} />
                                     </div>
                                     <div className="p-2 w-full mt-10">
-                                        <button type='submit' className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-md">Change</button>
+                                        {changePassword.password != changePassword.cpassword && <span className='text-red-500 font-semibold'>Password not match</span>}
+                                    </div>
+                                    <div className="p-2 w-full mt-5">
+                                        <button type='submit' className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-md"disabled={changePassword.password != changePassword.cpassword}>Change</button>
                                     </div>
                                     <div className="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
                                         <a className="text-gray-500">dailynarratives08@gmail.com</a>
