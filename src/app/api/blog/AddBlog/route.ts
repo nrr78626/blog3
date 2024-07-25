@@ -13,9 +13,10 @@ export async function POST(request: NextRequest) {
         const title = await formData.get("title")
         const description = await formData.get("description")
         const content = await formData.get("content")
+        const category = await formData.get("category")
         const images = await formData.get("images") as unknown as File
 
-        if (!title || !description || !content || !images || title === "" || description === "" || content === "") {
+        if (!title || !description || !content || !images || !category || category === "" || title === "" || description === "" || content === "") {
             return NextResponse.json({ success: false, msg: "Please fill all fields" }, { status: 404 })
         }
 
@@ -47,6 +48,7 @@ export async function POST(request: NextRequest) {
             auther: auther._id,
             title,
             description,
+            category,
             content,
             images: image.url,
             autherName: auther.name

@@ -8,11 +8,12 @@ import { addBlog } from '@/Store/Feature/Blog/blogSlice'
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false })
 import { ToastContainer } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import BlogCategory from '@/Models/BlogType/BlogType'
 
 const AddBlog = () => {
     const dispatch = useAppDispatch()
     const elementRef = useRef(null)
-    const [blog, setBlog] = useState<any>({ title: "", description: "" })
+    const [blog, setBlog] = useState<any>({ title: "", description: "", category: "" })
     const [content, setContent] = useState<any | null>(null)
     const [blogImg, setBlogImg] = useState<any | null>(null)
     const { success }: any = useAppSelector(state => state.blogMethod)
@@ -20,7 +21,7 @@ const AddBlog = () => {
 
     const handleOnSubmit = async (e: any) => {
         e.preventDefault()
-        const { title, description } = blog
+        const { title, description, category } = blog
         if (!blogImg) {
             return
         }
@@ -29,6 +30,7 @@ const AddBlog = () => {
         formData.append("description", description)
         formData.append("images", blogImg)
         formData.append("content", content)
+        formData.append("category", category)
         dispatch(addBlog(formData))
     }
 
@@ -64,6 +66,16 @@ const AddBlog = () => {
                             />
                             <TextField id="desc-basic" name='description' label="Description" variant="outlined" onChange={handleOnChange} />
                             <TextField type='file' id="desc-basic" name='images' label="" variant="outlined" onChange={handleOnChangeImage} />
+                            <div className='flex flex-col border-[1px] rounded px-1 text-gray-700 hover:border-gray-900 focus:border-cyan-500'>
+                                <select name="caregory" id="category" className='outline-none py-3' >
+                                    <option value={""}>Select Category</option>
+                                    <option value={BlogCategory.news}>News</option>
+                                    <option value={BlogCategory.result}>Result</option>
+                                    <option value={BlogCategory.sports}>Sports</option>
+                                    <option value={BlogCategory.stocks}>Stocks</option>
+                                    <option value={BlogCategory.tech}>Technology</option>
+                                </select>
+                            </div>
                         </Stack>
                         <Stack mt={3}>
                             <JoditEditor value={blog.content} ref={elementRef} onChange={(newContent) => setContent(newContent)} />

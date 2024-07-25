@@ -5,6 +5,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const Signup = () => {
   const router = useRouter()
@@ -84,6 +85,9 @@ const Signup = () => {
             </div> */}
               <div className="p-2 w-full">
                 <button type='submit' className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg">Signup</button>
+              </div>
+              <div className='p-2 w-full flex flex-col'>
+                <span className='my-2 text-sm font-semibold text-gray-800' >Already have an account ? <Link href={"/Login"} className='mx-3 text-green-500' >Click Here !</Link></span>
               </div>
               <div className="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
                 <a className="text-gray-500">dailynarratives08@gmail.com</a>
