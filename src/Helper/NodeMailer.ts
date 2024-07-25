@@ -37,7 +37,7 @@ const sendEmail = async ({ email, token }: any) => {
                             We have sent you this email in response to your request to reset your password on Daily Narratives.
                             <br/><br/>
                             To reset your password for <a href="${process.env.NEXT_PUBLIC_DOMAIN}/ForgotPassword?token=${token}">Daily Narratives</a>, please follow the link below:
-                            <a href="${process.env.NEXT_PUBLIC_DOMAIN}/ForgetPassword?token=${"dammdmdsan"}">Click Here</a>
+                            <a href="${process.env.NEXT_PUBLIC_DOMAIN}/ForgotPassword?token=${token}">Click Here</a>
                             <br/><br/>
                             We recommend that you keep your password secure and not share it with anyone.If you feel your password has been compromised, you can change it by going to your Daily Narratives My Account Page and clicking on the "Change Email Address or Password" link.
                             <br/><br/>

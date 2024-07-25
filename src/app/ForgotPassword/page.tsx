@@ -59,19 +59,48 @@ const page = () => {
         }
     }
 
-    const handleOnChangePasswordSubmit=async(e:FormEvent<HTMLFormElement>)=>{
+    const handleOnChangePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const {password,cpassword} = changePassword
+        const { password, cpassword } = changePassword
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/ConfirmNewPassword`,{
-                method:"PUT",
-                headers:{
-                    "Content-Type":"application/json"
+            const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/ConfirmNewPassword`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": token
                 },
-                body:JSON.stringify({password,cpassword})
+                body: JSON.stringify({ password, cpassword })
             })
             const json = await response.json()
             console.log(json)
+            if (json.success) {
+                toast.success(json.msg, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+                // setTimeout(() => {
+                //     router.push("/Login")
+                // }, 3000)
+            } else {
+                toast.error(json.msg, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                })
+            }
         } catch (error) {
             console.log(error)
         }
@@ -81,8 +110,8 @@ const page = () => {
         setForgotPass({ ...forgotPass, [e.target.name]: e.target.value })
     }
 
-    const handleOnChangePassword=(e:ChangeEvent<HTMLInputElement>)=>{
-        setChangePassword({...changePassword,[e.target.name]:e.target.value})
+    const handleOnChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+        setChangePassword({ ...changePassword, [e.target.name]: e.target.value })
     }
 
     return (
@@ -163,7 +192,7 @@ const page = () => {
                                         {changePassword.password != changePassword.cpassword && <span className='text-red-500 font-semibold'>Password not match</span>}
                                     </div>
                                     <div className="p-2 w-full mt-5">
-                                        <button type='submit' className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-md"disabled={changePassword.password != changePassword.cpassword}>Change</button>
+                                        <button type='submit' className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-md" disabled={changePassword.password != changePassword.cpassword}>Change</button>
                                     </div>
                                     <div className="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
                                         <a className="text-gray-500">dailynarratives08@gmail.com</a>
