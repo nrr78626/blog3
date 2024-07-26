@@ -67,6 +67,7 @@ const sendEmail = async ({ email, token }: any) => {
         const info = await transporter.sendMail({
             from: process.env.NEXT_PUBLIC_NODEMAILER_USER,
             to: email,
+            subject:"Forgot Password",
             html: mailBody
         })
         return info

@@ -85,9 +85,9 @@ const page = () => {
                     theme: "light",
                     transition: Bounce,
                 });
-                // setTimeout(() => {
-                //     router.push("/Login")
-                // }, 3000)
+                setTimeout(() => {
+                    router.push("/Login")
+                }, 3000)
             } else {
                 toast.error(json.msg, {
                     position: "top-right",

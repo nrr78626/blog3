@@ -33,9 +33,13 @@ export async function PUT(request: NextRequest) {
             isVerified: user.isVerified
         }
 
-        const authtoken = jwt.sign(payload, process.env.NEXT_PUBLIC_SECRET_KEY!)
+        user.password = hashPass
+        user.forgetPasswordToken = undefined
+        user.forgetPasswordTokenExpiry = undefined
 
-        user = await User.findByIdAndUpdate(user._id, { $set: { password: hashPass, forgetPasswordToken: undefined, forgetPasswordTokenExpiry: undefined } }, { new: true })
+        user.save()
+
+        const authtoken = jwt.sign(payload, process.env.NEXT_PUBLIC_SECRET_KEY!)
 
         return NextResponse.json({ success: true, msg: "Updated", authtoken }, { status: 200 })
     } catch (error) {
