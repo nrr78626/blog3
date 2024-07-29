@@ -2,26 +2,38 @@
 import BaseCard from '@/components/components/shared/BaseCard';
 import { useAppDispatch, useAppSelector } from '@/Store/Hooks/hooks';
 import { Grid, TableContainer, Table, TableHead, TableRow, TableCell, Typography, TableBody, Box } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { FaTrashCan } from "react-icons/fa6";
 import { IoMdCloudUpload } from "react-icons/io";
 import roles from '@/Models/Roles/Roles';
-import { editUserRole } from '@/Store/Feature/Auth/userSlice';
+import { deleteUser, editUserRole } from '@/Store/Feature/Auth/userSlice';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 const AllUsers = () => {
-    const { user }: any = useAppSelector(state => state.userMethod)
+    const router = useRouter()
+    const { user, isLoading }: any = useAppSelector(state => state.userMethod)
 
     const dispatch = useAppDispatch()
 
     const [userRole, setUserRole] = useState("")
 
+
     const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setUserRole(e.target.value)
     }
 
+    useEffect(() => {
+        if (isLoading) {
+            router.refresh()
+        }
+    }, [isLoading])
+
     return (
         <Grid container spacing={0}>
             <Grid item xs={12} lg={12}>
+                <ToastContainer className="z-[9999]" />
                 <BaseCard title="All Users">
                     <TableContainer
                         sx={{
@@ -62,7 +74,12 @@ const AllUsers = () => {
                                     </TableCell>
                                     <TableCell align="right">
                                         <Typography display={"flex"} justifyContent={"center"} color="textSecondary" variant="h6">
-                                            Action
+                                            Delete
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Typography display={"flex"} justifyContent={"center"} color="textSecondary" variant="h6">
+                                            Update
                                         </Typography>
                                     </TableCell>
                                 </TableRow>
@@ -96,10 +113,10 @@ const AllUsers = () => {
                                             <Typography display={"flex"} justifyContent={"center"} variant="h6">{_users.contact}</Typography>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
-                                                <FaTrashCan className='mx-3 cursor-pointer text-red-600' />
-                                                <IoMdCloudUpload onClick={() => dispatch(editUserRole({ userId: _users._id, userRole }))} className='mx-3 cursor-pointer text-green-600 font-semibold text-xl' />
-                                            </Box>
+                                            <FaTrashCan className='mx-3 cursor-pointer text-red-600' onClick={() => dispatch(deleteUser(_users._id))} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <IoMdCloudUpload onClick={() => dispatch(editUserRole({ userId: _users._id, userRole }))} className='mx-3 cursor-pointer text-green-600 font-semibold text-xl' />
                                         </TableCell>
                                     </TableRow>
                                 ))}

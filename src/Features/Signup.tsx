@@ -10,7 +10,7 @@ import Link from 'next/link'
 const Signup = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { success }: any = useAppSelector(state => state.userMethod)
+  const { success,user }: any = useAppSelector(state => state.userMethod)
 
   const [signup, setSignup] = useState({ name: "", email: "", password: "", contact: "", cpassword: "", age: "" })
 

@@ -130,6 +130,31 @@ export const editUserRole = createAsyncThunk("edituser", async ({ userId, userRo
         body: JSON.stringify({ userId, userRole })
     })
     const json = await response.json()
+    if (json.success) {
+        toast.success(json.msg, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        });
+    } else {
+        toast.error(json.msg, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        })
+    }
     return json
 })
 
@@ -143,6 +168,47 @@ export const myprofile = createAsyncThunk("myprofile", async () => {
         })
         const json = await response.json()
         return json
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteUser = createAsyncThunk("deleteuser", async (id: any) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/DeleteUser`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "token": id
+            }
+        })
+        const json = await response.json()
+        if (json.success) {
+            toast.success(json.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        } else {
+            toast.error(json.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            })
+        }
+        return json.user
     } catch (error) {
         console.log(error)
     }
@@ -184,7 +250,6 @@ export const userSlice = createSlice({
         })
         builder.addCase(editUserRole.fulfilled, (state, action) => {
             state.isLoading = false
-            console.log(action.payload)
         })
         builder.addCase(loginUser.pending, (state) => {
             state.isLoading = true
@@ -207,6 +272,15 @@ export const userSlice = createSlice({
             state.isLoading = false
             state.success = true
             state.currenUser = action.payload.user
+        })
+        builder.addCase(deleteUser.pending,(state)=>{
+            state.isLoading = true
+        })
+        builder.addCase(deleteUser.rejected,(state)=>{
+            state.isLoading = false
+        })
+        builder.addCase(deleteUser.fulfilled,(state,action)=>{
+            state.isLoading = false
         })
     }
 })
