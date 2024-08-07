@@ -1,9 +1,14 @@
+"use client"
 import BaseCard from '@/components/components/shared/BaseCard';
+import { deleteBlog } from '@/Store/Feature/Blog/blogSlice';
+import { useAppDispatch } from '@/Store/Hooks/hooks';
 import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import Link from 'next/link';
 import React from 'react'
 
 const AllBlogs = ({ blogs }: { blogs: any }) => {
+  const dispatch = useAppDispatch()
+
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} lg={12}>
@@ -77,6 +82,13 @@ const AllBlogs = ({ blogs }: { blogs: any }) => {
                         <Link href={`/Dashboard/BlogPost/${blog._id}`} >
                           Open
                         </Link>
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h6">
+                        <button className='text-red-500' onClick={() => dispatch(deleteBlog(blog._id))} >
+                          Delete
+                        </button>
                       </Typography>
                     </TableCell>
                   </TableRow>

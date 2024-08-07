@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
         })
 
         await blog.save()
-        return NextResponse.json({ success: true, msg: "Added", blog }, { status: 200 })
+        return NextResponse.json({ success: true, msg: "Added", blog, formData }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ success: false, msg: "Internal Server Error" }, { status: 500 })
     }

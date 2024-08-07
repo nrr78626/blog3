@@ -7,21 +7,20 @@ import { useAppDispatch, useAppSelector } from '@/Store/Hooks/hooks'
 import { addBlog } from '@/Store/Feature/Blog/blogSlice'
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false })
 import { ToastContainer } from 'react-toastify'
-import { useRouter } from 'next/navigation'
 import BlogCategory from '@/Models/BlogType/BlogType'
 
 const AddBlog = () => {
     const dispatch = useAppDispatch()
     const elementRef = useRef(null)
-    const [blog, setBlog] = useState<any>({ title: "", description: "", category: "" })
+    const [blog, setBlog] = useState<any | null>({ title: "", description: "" })
+    const [category, setCategory] = useState<any>("")
     const [content, setContent] = useState<any | null>(null)
     const [blogImg, setBlogImg] = useState<any | null>(null)
     const { success }: any = useAppSelector(state => state.blogMethod)
-    const router = useRouter()
 
     const handleOnSubmit = async (e: any) => {
         e.preventDefault()
-        const { title, description, category } = blog
+        const { title, description } = blog
         if (!blogImg) {
             return
         }
@@ -36,6 +35,12 @@ const AddBlog = () => {
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setBlog({ ...blog, [e.target.name]: e.target.value })
+    }
+
+    const handleOnSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        if(e.target.name=="category"){
+            setCategory(e.target.value)
+        }
     }
 
     const handleOnChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,8 +72,8 @@ const AddBlog = () => {
                             <TextField id="desc-basic" name='description' label="Description" variant="outlined" onChange={handleOnChange} />
                             <TextField type='file' id="desc-basic" name='images' label="" variant="outlined" onChange={handleOnChangeImage} />
                             <div className='flex flex-col border-[1px] rounded px-1 text-gray-700 hover:border-gray-900 focus:border-cyan-500'>
-                                <select name="caregory" id="category" className='outline-none py-3' >
-                                    <option value={""}>Select Category</option>
+                                <select name="category" id="category" className='outline-none py-3' onChange={handleOnSelectChange} >
+                                    <option value={BlogCategory.any}>Select Category</option>
                                     <option value={BlogCategory.news}>News</option>
                                     <option value={BlogCategory.result}>Result</option>
                                     <option value={BlogCategory.sports}>Sports</option>

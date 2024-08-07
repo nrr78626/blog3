@@ -32,7 +32,7 @@ export const getallblogs = createAsyncThunk("fetchallblogs", async () => {
     }
 })
 
-export const getUserBlog = createAsyncThunk("getuserblog", async ({cat}:any) => {
+export const getUserBlog = createAsyncThunk("getuserblog", async ({ cat }: any) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/GetUsersBlog/${cat}`, {
             method: "GET",
@@ -57,6 +57,48 @@ export const addBlog = createAsyncThunk("addBlog", async (formData: any) => {
             },
             body: formData
         })
+        const json = await response.json()
+        if (json.success) {
+            toast.success(json.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        } else {
+            toast.error(json.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            })
+        }
+        return json
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteBlog = createAsyncThunk("deleteBlog", async (id: any) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blog/DeleteBlog`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "userid": id
+            }
+        })
+
         const json = await response.json()
         console.log(json)
         if (json.success) {
@@ -95,7 +137,7 @@ export const blogSlice = createSlice({
     initialState,
     reducers: {
         getCurrentBlog(state, action) {
-            
+
         }
     },
     extraReducers: (builder) => {
@@ -107,7 +149,9 @@ export const blogSlice = createSlice({
         })
         builder.addCase(addBlog.fulfilled, (state, action) => {
             state.loading = false
-            state.blogs.push(action.payload.blog)
+            if (action.payload.blog) {
+                state.blogs.push(action.payload.blog)
+            }
         })
         builder.addCase(getallblogs.pending, (state) => {
             state.loading = true
@@ -129,6 +173,16 @@ export const blogSlice = createSlice({
         builder.addCase(getUserBlog.fulfilled, (state, action) => {
             state.loading = false
             state.blogs = action.payload
+        })
+        builder.addCase(deleteBlog.pending, (state) => {
+            state.loading = true
+
+        })
+        builder.addCase(deleteBlog.rejected, (state) => {
+            state.loading = false
+        })
+        builder.addCase(deleteBlog.fulfilled, (state) => {
+            state.loading = false
         })
 
     }
